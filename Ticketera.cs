@@ -55,6 +55,39 @@ class Ticketera
 
     public static List<string> EstadisticasTicketera()
     {
+        int cantInscripcion;
+        int porcentajeEntradas;
+        int tipo1 = 0;
+        int tipo2 = 0;
+        int tipo3 = 0;
+        int tipo4 = 0;
+        int recaudacionTotal;
+
+        cantInscripcion = DicClientes.Count();
+
+
+        foreach(Cliente clave in DicClientes.Values)
+        {
+            if(clave.TipoEntrada == 1)
+            {
+                tipo1 += 15000;
+            }
+            else if(clave.TipoEntrada == 2)
+            {
+                tipo2 += 30000;
+            }
+            else if(clave.TipoEntrada == 3)
+            {
+                dia3 += 10000;
+            }
+            else
+            {
+                dia4 += 40000;
+            }  
+        }
+
+        recaudacionTotal = dia1 + dia2 + dia3 + dia4;
+
         
     }
 
