@@ -50,12 +50,22 @@ void NuevaInscripcion()
 
 void ObtenerEstadisticas()
 {
+
     List <string> ListaEstadisticas = Ticketera.EstadisticasTicketera();
 
-    foreach(string dato in ListaEstadisticas)
+    if(ListaEstadisticas == null)
     {
-        Console.WriteLine(dato);
+        Console.WriteLine("No hay ninguna estadistica aun");
     }
+    else
+    {
+        foreach(string dato in ListaEstadisticas)
+        {
+            Console.WriteLine(dato);
+        }
+    }
+
+    
 }
 
 void BuscarCliente()
@@ -64,14 +74,24 @@ void BuscarCliente()
     int idIngresado;
     idIngresado = Funciones.IngresarEntero("Ingrese el ID que quiere buscar: ");
 
+    
     clienteEncontrado = Ticketera.BuscarCliente(idIngresado);
 
-    Console.WriteLine(clienteEncontrado.DNI);
-    Console.WriteLine(clienteEncontrado.Apellido);
-    Console.WriteLine(clienteEncontrado.Nombre);
-    Console.WriteLine(clienteEncontrado.FechaInscripcion);
-    Console.WriteLine(clienteEncontrado.TipoEntrada);
-    Console.WriteLine(clienteEncontrado.TotalAbonado);
+    if(clienteEncontrado == null)
+    {
+        Console.WriteLine("No se encontro su ID");
+    }
+    else
+    {
+        Console.WriteLine(clienteEncontrado.DNI);
+        Console.WriteLine(clienteEncontrado.Apellido);
+        Console.WriteLine(clienteEncontrado.Nombre);
+        Console.WriteLine(clienteEncontrado.FechaInscripcion.ToShortDateString());
+        Console.WriteLine(clienteEncontrado.TipoEntrada);
+        Console.WriteLine(clienteEncontrado.TotalAbonado);
+    }
+
+    
 }
 
 void CambiarEntrada()
@@ -94,5 +114,6 @@ void CambiarEntrada()
         ClienteACambiar.TipoEntrada = tipoEntrada;
         ClienteACambiar.TotalAbonado = importeNuevo;
         ClienteACambiar.FechaInscripcion = DateTime.Today;
+        Console.WriteLine("Su cambio de entrada a sido un exito");
     }
 }

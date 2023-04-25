@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 class Ticketera
 { 
-    private static Dictionary<int,Cliente> DicClientes;
+    private static Dictionary<int,Cliente> DicClientes = new Dictionary<int, Cliente>();
+
+
 
     private static  int UltimoIDEntrada = 0;
 
@@ -32,6 +34,7 @@ class Ticketera
         else
         {
             clienteEncontrado = null;
+            
         }
         return clienteEncontrado;
     }
@@ -40,59 +43,64 @@ class Ticketera
     {
         bool puedeCambiar = false;
         int tipoEntradaVieja;
-        tipoEntradaVieja = DicClientes[IDEntradaIngresado].TipoEntrada;
         int importeNuevo;
         int importeViejo;
-
-        importeNuevo = CalcularImporte(tipoEntradaNuevo);
-        importeViejo = CalcularImporte(tipoEntradaVieja);
-
-        
-
-        if(importeNuevo > importeViejo && DicClientes.ContainsKey(IDEntradaIngresado))
+        if(DicClientes.ContainsKey(IDEntradaIngresado))
         {
-            puedeCambiar = true;
-        }
+            tipoEntradaVieja = DicClientes[IDEntradaIngresado].TipoEntrada;
+            importeNuevo = CalcularImporte(tipoEntradaNuevo);
+            importeViejo = CalcularImporte(tipoEntradaVieja);
 
+            if(importeNuevo > importeViejo)
+            {
+                puedeCambiar = true;
+            }
+        }
         return puedeCambiar;
     }
 
     public static List<string> EstadisticasTicketera()
     {
         List <string> ListaEstadisticas = new List <string>();
-        int cantInscripcion;
+        int cantInscripcion = 0;
         int recaudacionTotal = 0;
 
         cantInscripcion = DicClientes.Count();
 
-        int[] vecRecaudacionTipos = new int[3];
-        int[] vecCantPorTipo = new int[3];
-        int[] vecRecaudacionPorcentaje = new int[3];
-
-        foreach(Cliente clave in DicClientes.Values)
+        if(cantInscripcion == 0)
         {
-            if(clave.TipoEntrada == 1)
+            return null;
+        }
+        else
+        {
+            int[] vecRecaudacionTipos = new int[4];
+            int[] vecCantPorTipo = new int[4];
+            int[] vecRecaudacionPorcentaje = new int[4];
+
+            foreach(Cliente clave in DicClientes.Values)
+            {
+                if(clave.TipoEntrada == 1)
             {
                 vecRecaudacionTipos[0] += 15000;
                 vecCantPorTipo[0] += 1;
             }
-            else if(clave.TipoEntrada == 2)
+                else if(clave.TipoEntrada == 2)
             {
                 vecRecaudacionTipos[1] += 30000;
                 vecCantPorTipo[1] += 1;
             }
-            else if(clave.TipoEntrada == 3)
+                else if(clave.TipoEntrada == 3)
             {
                 vecRecaudacionTipos[2] += 10000;
                 vecCantPorTipo[2] += 1;
             }
-            else
+                else
             {
                 vecRecaudacionTipos[3] += 40000;
                 vecCantPorTipo[3] += 1;
             }  
 
-        }
+            }
             for(int i = 0; i < 4; i++)
             {
                 recaudacionTotal += vecRecaudacionTipos[i];
@@ -104,17 +112,18 @@ class Ticketera
                 vecRecaudacionPorcentaje[x] = (vecCantPorTipo[x] * 100) / cantInscripcion;
             }
 
-        ListaEstadisticas.Add(Convert.ToString("La cantidad de cliente inscriptos fueron: " + cantInscripcion));
+            ListaEstadisticas.Add(Convert.ToString("La cantidad de cliente inscriptos fueron: " + cantInscripcion));
 
-        for(int y = 1; y <= 4; y++)
-        {   
-            ListaEstadisticas.Add(Convert.ToString("El porcentaje de cantidad de entradas vendias de la opcion opcion " + y + " fue de " + vecRecaudacionPorcentaje[y]));
-            ListaEstadisticas.Add(Convert.ToString("La recaudacion de la opcion " + y  + " fue de " + vecRecaudacionTipos[y]));
-        }
-        ListaEstadisticas.Add(Convert.ToString("La recaudacion total fue de: " + recaudacionTotal));
+            for(int y = 1; y < 4; y++)
+            {   
+            ListaEstadisticas.Add(Convert.ToString("El porcentaje de cantidad de entradas vendias de la opcion opcion " + y + " fue del " + vecRecaudacionPorcentaje[y -1]) + " porciento");
+            ListaEstadisticas.Add(Convert.ToString("La recaudacion de la opcion " + y  + " fue de " + vecRecaudacionTipos[y -1]));
+            }
+            ListaEstadisticas.Add(Convert.ToString("La recaudacion total fue de: " + recaudacionTotal));
+            return ListaEstadisticas;
+            }
 
-
-        return ListaEstadisticas;
+        
     }
 
     public static int CalcularImporte(int tipoEntrada)
