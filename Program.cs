@@ -1,4 +1,37 @@
-﻿void NuevaInscripcion()
+﻿int menu;
+
+bool salir = false;
+while(!salir)
+{
+     menu = Funciones.IngresarEntero("1. Nueva Inscripcion  | 2. Obtener Estadisticas  | 3. Buscar Cliente | 4. Cambiar Entrada | 5. Salir"); 
+        switch(menu)
+    {
+        case 1:
+            NuevaInscripcion();
+        break;
+
+        case 2:
+            ObtenerEstadisticas();
+        break;
+
+        case 3:
+            BuscarCliente(); 
+        break;
+
+        case 4:
+            CambiarEntrada();
+        break;
+
+        case 5:
+            salir = true;
+        break;
+   
+    }
+}
+
+
+
+void NuevaInscripcion()
 {
     int dni = Funciones.IngresarEntero("Ingrese el DNI: ");
     string apellido = Funciones.IngresarTexto("Ingrese el apellido: ");
