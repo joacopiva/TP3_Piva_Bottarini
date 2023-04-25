@@ -4,7 +4,7 @@ class Ticketera
 { 
     private static Dictionary<int,Cliente> DicClientes;
 
-    private static  int UltimoIDEntrada = 1;
+    private static  int UltimoIDEntrada = 0;
 
     
     public static int DevolverUltimoID()
@@ -14,8 +14,9 @@ class Ticketera
 
     public static int AgregarCliente(Cliente cliente)
     {
-        DicClientes.Add(UltimoIDEntrada, cliente);
         UltimoIDEntrada ++;
+        DicClientes.Add(UltimoIDEntrada, cliente);
+        
 
         return UltimoIDEntrada;
     }
@@ -46,10 +47,13 @@ class Ticketera
         importeNuevo = CalcularImporte(tipoEntradaNuevo);
         importeViejo = CalcularImporte(tipoEntradaVieja);
 
-        if(importeNuevo > importeViejo)
+        
+
+        if(importeNuevo > importeViejo && DicClientes.ContainsKey(IDEntradaIngresado))
         {
             puedeCambiar = true;
         }
+
         return puedeCambiar;
     }
 
